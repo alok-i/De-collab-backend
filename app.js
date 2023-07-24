@@ -13,7 +13,7 @@ require('./config/dev.env')
 dotenv.config({ path: "./config/dev.env" });
 
 //ROUTES
-const userRoutes =  require('./routes/user')
+const routes =  require('./routes/web')
 // const handleError = require("./middlewares/error");
 
 app.use(express.json());
@@ -21,7 +21,6 @@ app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-// app.use("/api/v1", userRoutes);
-app.use('/api/v1/users', userRoutes);
+app.use("/api/v1", routes);
 // app.use(handleError);
 module.exports = app;
