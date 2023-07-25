@@ -11,7 +11,6 @@ const sendToken = require("../utils/jwtToken");
  */
 
 const signToken = id => {
-  console.log(expiresIn);
   return jwt.sign({ id: id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRES_IN
   });
@@ -82,3 +81,20 @@ exports.login = catchAsyncErrors(async (req, res, next) => {
 
   createSendToken(user, 200, res);
 });
+
+/**
+ * --------------------------------------------------------------------------
+ * * SEARCH API
+ * --------------------------------------------------------------------------
+ */
+exports.search = catchAsyncErrors(async (req, res, next) => {
+  const search = req.body.name;
+ const searchData = await User.find({ $or: [{ name: { '$regex': search } }] }); 
+  return res.send({
+    status: "200",
+    type: "Success",
+    searchData,
+    message:
+      "data fetched successfully.",
+  });
+})
