@@ -26,6 +26,9 @@ const userSchema = new mongoose.Schema({
     tags: {
         type: String,
         required: [true, "Please Enter Your tags"],
+  },
+    auth_token: {
+      type:String
     },
     passwordConfirm: {
         type: String,
