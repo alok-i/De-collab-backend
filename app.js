@@ -9,13 +9,13 @@ const TwitterStrategy = require('passport-twitter').Strategy;
 const userTwitter = require("./models/userTwitter");
 
 
-require("./config/dev.env");
+require("./config/.env");
 const app = express();
 
 
-require('./config/dev.env')
+require('./config/.env')
 //CONFIGURATION
-dotenv.config({ path: "./config/dev.env" });
+dotenv.config({ path: "./config/.env" });
 
 //ROUTES
 const userRoutes =  require('./routes/user');
@@ -23,7 +23,24 @@ const user = require("./models/user");
 // const handleError = require("./middlewares/error");
 
 app.use(express.json());
-app.use(cors({credentials: true, origin: 'http://localhost:3000'}));
+app.use(cors({ origin: "http://localhost:3000", credentials: true }))
+
+// app.use((req, res, next) => {
+//   // Allow only the specific origin of the request
+//   res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
+
+//   // Allow credentials to be included in the request
+//   res.header('Access-Control-Allow-Credentials', 'true');
+
+//   // Allow specific HTTP methods (e.g., GET, POST, etc.)
+//   res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+
+//   // Allow specific headers to be sent with the request
+//   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+
+//   next();
+// });
+
 // app.use(express.urlencoded({ extended: true }));
 // app.use(cookieParser());
 
@@ -93,7 +110,7 @@ passport.serializeUser((user, done) => {
   passport.authenticate('twitter', { failureRedirect: 'http://localhost:3000/', session: true }),
   function (req, res) {
     console.log("reached second");
-    res.redirect('http://localhost:3000/register');
+    res.redirect('http://localhost:3000/profile');
   });
 
   app.get('/getUser', (req, res)=> {
