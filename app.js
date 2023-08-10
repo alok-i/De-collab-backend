@@ -19,6 +19,7 @@ dotenv.config({ path: "./config/.env" });
 
 //ROUTES
 const userRoutes =  require('./routes/user');
+const profileRoute = require('./routes/profile');
 const user = require("./models/user");
 // const handleError = require("./middlewares/error");
 
@@ -119,5 +120,6 @@ passport.serializeUser((user, done) => {
 
 
 app.use('/api/v1/users', userRoutes);
+app.use('/api/v1/profile', profileRoute);
 // app.use(handleError);
 module.exports = app;
