@@ -18,15 +18,107 @@ require('./config/.env')
 dotenv.config({ path: "./config/.env" });
 
 //ROUTES
-const userRoutes =  require('./routes/user')
+const userRoutes =  require('./routes/user');
+const profileRoute = require('./routes/profile');
+const user = require("./models/user");
 // const handleError = require("./middlewares/error");
 
 app.use(express.json());
-app.use(cors());
-app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
+app.use(cors({ origin: "http://localhost:3000", credentials: true }))
 
-// app.use("/api/v1", userRoutes);
+// app.use((req, res, next) => {
+//   // Allow only the specific origin of the request
+//   res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
+
+//   // Allow credentials to be included in the request
+//   res.header('Access-Control-Allow-Credentials', 'true');
+
+//   // Allow specific HTTP methods (e.g., GET, POST, etc.)
+//   res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+
+//   // Allow specific headers to be sent with the request
+//   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+
+//   next();
+// });
+
+// app.use(express.urlencoded({ extended: true }));
+// app.use(cookieParser());
+
+// app.use(session({
+//     secret: "secret-code",
+//     resave: false,
+//     saveUninitialized: false, 
+//     cookie: {
+//         sameSite: "none",
+//         secure: false,
+//         maxAge: 1000 * 60 * 60 * 24 * 7
+//     }
+// }));
+
+app.use(session({ secret: 'blah', name: 'id' }))
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.serializeUser((user, done) => {
+    return done(null, user._id);
+  });
+  
+
+  passport.deserializeUser(async (id, done) => {
+    try {
+      const user = await userTwitter.findById(id);
+      return done(null, user);
+    } catch (err) {
+      return done(err, null);
+    }
+  });
+  
+
+  passport.use(
+    new TwitterStrategy(
+      {
+        consumerKey: "N6xjoKgqSgGBJlc2bZJuUT3Kd",
+        consumerSecret: "qAvzI6CL1WylIdJQnwEVPrG7gHq75qlU04wOcyXHnZVGOXNMmC",
+        callbackURL: "/auth/twitter/callback",
+      },
+      async (accessToken, refreshToken, profile, done) => {
+        try {
+          // Find the user in the database using the Twitter ID
+          let user = await userTwitter.findOne({ twitterId: profile.id });
+  
+          if (!user) {
+            // If the user doesn't exist, create a new user
+            user = new userTwitter({
+              twitterId: profile.id,
+              usernameTwitter: profile.displayName,
+            });
+  
+            await user.save();
+          }
+  
+          return done(null, user);
+        } catch (err) {
+          return done(err, null);
+        }
+      }
+    )
+  );
+
+  app.get('/auth/twitter', passport.authenticate('twitter'));
+  app.get('/auth/twitter/callback',
+  passport.authenticate('twitter', { failureRedirect: 'http://localhost:3000/', session: true }),
+  function (req, res) {
+    console.log("reached second");
+    res.redirect('http://localhost:3000/profile');
+  });
+
+  app.get('/getUser', (req, res)=> {
+    res.send(req.user);
+  })
+
+
 app.use('/api/v1/users', userRoutes);
 app.use('/api/v1/profile', profileRoute);
 // app.use(handleError);
