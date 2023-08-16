@@ -1,7 +1,7 @@
 const UserProfile = require('../models/UserProfile');
 const catchAsyncErrors = require("../middlewares/catchAsyncErrors");
 const { promisify } = require('util');
-
+const AppError = require('../utils/appError');
 
 
 exports.editProfile = (req, res, next) => {
@@ -31,5 +31,23 @@ exports.editProfile = (req, res, next) => {
     })
 
 }
+
+exports.getProfile = catchAsyncErrors(async (req, res, next)=> {
+     
+    const requestedTwitterId = req.params.twitterId;
+    const profile = await UserProfile.findOne({twitterId: requestedTwitterId});
+
+    if(!profile){
+         return next(new AppError("this user dosent exist", 404));
+    }
+
+    res.status(200).json({
+        status: 'success',
+        data: {
+           profile
+        }
+      });
+
+})
 
  

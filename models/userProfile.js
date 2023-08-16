@@ -3,6 +3,10 @@ const mongoose = require("mongoose");
 const userProfile = new mongoose.Schema({
     twitterId: {
         required: false,
+        type: String,
+        index: true
+    },
+    companyName:{
         type: String
     },
     usernameTwitter: {
@@ -12,17 +16,20 @@ const userProfile = new mongoose.Schema({
     aboutUs : {
         type: String,
     },
-    tags: {
+    Tags: {
         type: String
     },
-    Socials: {
+    Socials: [{
         type: String
-    },
-    fundingRounds: {
-        Seed: String,
-        SeriesA: String,
-        SeriesB: String
-    }
+    }],
+    fundingRounds: [
+        {
+            roundType: String,  // Seed, SeriesA, SeriesB, etc.
+            amount: String,
+            date: Date,
+            // other relevant fields
+        }
+    ] 
 })
 
 const UserProfile = mongoose.model('UserProfile' , userProfile);
