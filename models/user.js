@@ -24,7 +24,7 @@ const userSchema = new mongoose.Schema({
         select: false,
     },
     tags: {
-        type: String,
+        type: [String],
         required: [true, "Please Enter Your tags"],
   },
     auth_token: {
