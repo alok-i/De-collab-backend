@@ -10,7 +10,7 @@ const router = express.Router();
 // router.get('/getUser' , UserController.getUser);
 router.post('/signup', UserController.signup);
 router.post('/login', UserController.login);
-router.post('/search', UserController.search);
+router.post('/search/:search', UserController.search);
 
 //posts
 router.post('/create/post', PostController.createPost);
