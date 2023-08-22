@@ -5,19 +5,23 @@ const AppError = require('../utils/appError');
 
 
 exports.editProfile = (req, res, next) => {
-    const { twitterId, usernameTwitter, aboutUs, tags, Socials, fundingRounds } = req.body;
+    const { twitterId, usernameTwitter, about_us, tags, social_link_linkedin, social_link_telegram, social_link_medium, company_name, fundingRounds } = req.body;
       
     UserProfile.findOne({ twitterId }).then((Profile)=>{
         if(!Profile){
 
-            Profile = new UserProfile({ twitterId, usernameTwitter, aboutUs, tags, Socials, fundingRounds})
+            Profile = new UserProfile({ twitterId, usernameTwitter, about_us, tags, social_link_linkedin, social_link_telegram, social_link_medium, company_name, fundingRounds })
         } else {
             // Profile found, update the specified parameters
+            if(company_name) Profile.company_name = company_name;
             if (usernameTwitter) Profile.usernameTwitter = usernameTwitter;
-            if (aboutUs) Profile.aboutUs = aboutUs;
+            if (about_us) Profile.about_us = about_us;
             if (tags) Profile.tags = tags;
-            if (Socials) Profile.Socials = Socials;
             if (fundingRounds) Profile.fundingRounds = fundingRounds;
+            if(social_link_linkedin) Profile.social_link_linkedin = social_link_linkedin;
+            if(social_link_medium) Profile.social_link_medium = social_link_medium;
+            if(social_link_telegram) Profile.social_link_telegram = social_link_telegram;
+
         }
 
         return Profile.save();

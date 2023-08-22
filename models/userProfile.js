@@ -6,22 +6,28 @@ const userProfile = new mongoose.Schema({
         type: String,
         index: true
     },
-    companyName:{
+    company_name:{
         type: String
     },
     usernameTwitter: {
         required: false,
         type: String
     },
-    aboutUs : {
+    about_us : {
         type: String,
     },
-    Tags: {
+    tags: {
+        type: [String]
+    },
+    social_link_linkedin: {
         type: String
     },
-    Socials: [{
+    social_link_telegram: {
         type: String
-    }],
+    },
+    social_link_medium: {
+        type: String
+    },  
     fundingRounds: [
         {
             roundType: String,  // Seed, SeriesA, SeriesB, etc.
