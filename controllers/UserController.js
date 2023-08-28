@@ -58,7 +58,7 @@ exports.signup = catchAsyncErrors(async (req, res, next) => {
   } catch (error) {
     console.log(error);
   }
-  // next();
+  next();
 });
 /**
  * --------------------------------------------------------------------------
@@ -89,8 +89,8 @@ exports.login = catchAsyncErrors(async (req, res, next) => {
  * --------------------------------------------------------------------------
  */
 exports.search = catchAsyncErrors(async (req, res, next) => {
-  const search = req.body.name;
- const searchData = await User.find({ $or: [{ name: { '$regex': search } }] }); 
+  const search = req.params.search;
+  const searchData = await User.find({ $or: [{ name: { '$regex': search } }] }); 
   return res.send({
     status: "200",
     type: "Success",
