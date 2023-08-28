@@ -76,13 +76,11 @@ passport.serializeUser((user, done) => {
   });
   
 
-  passport.use(
-    new TwitterStrategy(
-      {
-        consumerKey: "N6xjoKgqSgGBJlc2bZJuUT3Kd",
-        consumerSecret: "qAvzI6CL1WylIdJQnwEVPrG7gHq75qlU04wOcyXHnZVGOXNMmC",
-        callbackURL: "/auth/twitter/callback",
-      },
+  passport.use(new TwitterStrategy({
+    consumerKey: `${process.env.TWITTER_CLIENT_ID}`,
+    consumerSecret: `${process.env.TWITTER_CLIENT_SECRET}`,
+    callbackURL: "/auth/twitter/callback"
+  },
       async (accessToken, refreshToken, profile, done) => {
         try {
           // Find the user in the database using the Twitter ID
