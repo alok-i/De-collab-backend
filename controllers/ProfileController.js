@@ -1,7 +1,7 @@
-const UserProfile = require('../models/UserProfile');
 const catchAsyncErrors = require("../middlewares/catchAsyncErrors");
 const { promisify } = require('util');
 const AppError = require('../utils/appError');
+const UserProfile = require('../models/userProfile');
 
 
 exports.editProfile = (req, res, next) => {

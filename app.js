@@ -106,7 +106,6 @@ passport.serializeUser((user, done) => {
   app.get('/auth/twitter/callback',
   passport.authenticate('twitter', { failureRedirect: 'http://localhost:3000/', session: true }),
   function (req, res) {
-    console.log("reached second");
     res.redirect('http://localhost:3000/profile');
   });
 
