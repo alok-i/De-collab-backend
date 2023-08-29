@@ -103,14 +103,14 @@ passport.serializeUser((user, done) => {
   );
 
   app.get('/auth/twitter', passport.authenticate('twitter'));
-  app.get('/auth/twitter/callback',
+  app.get('https://de-collab-backend-production.up.railway.app/auth/twitter/callback/auth/twitter/callback',
   passport.authenticate('twitter', { failureRedirect: 'http://localhost:3000/', session: true }),
   function (req, res) {
     res.redirect('http://localhost:3000/profile');
   });
 
   app.get('/getUser', (req, res)=> {
-    res.send(req.user);
+    res.send(req.user)
   })
 
 
