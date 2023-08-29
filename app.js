@@ -9,11 +9,9 @@ const TwitterStrategy = require('passport-twitter').Strategy;
 const userTwitter = require("./models/userTwitter");
 
 
-require("./config/.env");
+
 const app = express();
 
-
-require('./config/.env')
 //CONFIGURATION
 dotenv.config({ path: "./config/.env" });
 
