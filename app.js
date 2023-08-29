@@ -77,7 +77,7 @@ passport.serializeUser((user, done) => {
   passport.use(new TwitterStrategy({
     consumerKey: `${process.env.TWITTER_CLIENT_ID}`,
     consumerSecret: `${process.env.TWITTER_CLIENT_SECRET}`,
-    callbackURL: "https://de-collab-backend-production.up.railway.app/auth/twitter/callback"
+    callbackURL: "/auth/twitter/callback"
   },
       async (accessToken, refreshToken, profile, done) => {
         try {
