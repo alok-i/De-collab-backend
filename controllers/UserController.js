@@ -4,6 +4,7 @@ const { promisify } = require('util');
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 const sendToken = require("../utils/jwtToken");
+const AppError = require("../utils/appError");
 require("dotenv").config();
 
 /**
@@ -57,6 +58,7 @@ exports.signup = catchAsyncErrors(async (req, res, next) => {
     createSendToken(user, 201, res);
   } catch (error) {
     console.log(error);
+    next(new AppError("Error while signup" , 404))
   }
   next();
 });
