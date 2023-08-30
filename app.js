@@ -43,18 +43,18 @@ app.use(cors({ origin: "http://localhost:3000", credentials: true }))
 app.use(express.urlencoded({ extended: true }));
 // app.use(cookieParser());
 
-// app.use(session({
-//     secret: "secret-code",
-//     resave: false,
-//     saveUninitialized: false, 
-//     cookie: {
-//         sameSite: "none",
-//         secure: false,
-//         maxAge: 1000 * 60 * 60 * 24 * 7
-//     }
-// }));
+app.use(session({
+    secret: "secret-code",
+    resave: false,
+    saveUninitialized: false, 
+    cookie: {
+        sameSite: "none",
+        secure: false,
+        maxAge: 1000 * 60 * 60 * 24 * 7
+    }
+}));
 
-app.use(session({ secret: 'blah', name: 'id' }))
+// app.use(session({ secret: 'blah', name: 'id' }))
 
 app.use(passport.initialize());
 app.use(passport.session());
