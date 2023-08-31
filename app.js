@@ -43,16 +43,19 @@ app.use(cors({ origin: "http://localhost:3000", credentials: true }))
 app.use(express.urlencoded({ extended: true }));
 // app.use(cookieParser());
 
-app.use(session({
-    secret: "secret-code",
-    resave: false,
-    saveUninitialized: false, 
+app.set("trust proxy", 1);
+
+app.use(
+  session({
+    secret: "secretcode",
+    resave: true,
+    saveUninitialized: true,
     cookie: {
-        sameSite: "none",
-        secure: false,
-        maxAge: 1000 * 60 * 60 * 24 * 7
+      sameSite: "none",
+      secure: true,
+      maxAge: 1000 * 60 * 60 * 24 * 7 // One Week
     }
-}));
+  }))
 
 // app.use(session({ secret: 'blah', name: 'id' }))
 
