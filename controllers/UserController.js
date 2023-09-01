@@ -35,7 +35,7 @@ const createSendToken = async(user, statusCode, res) => {
   
   //fetching user based on token
   await User.findByIdAndUpdate(user._id, { auth_token: token });
-  res.status(statusCode).json({
+  res.status(statusCode).send({
     status: 'success',
     token,
     data: {
@@ -57,10 +57,8 @@ exports.signup = catchAsyncErrors(async (req, res, next) => {
     });
     createSendToken(user, 201, res);
   } catch (error) {
-    console.log(error);
     next(new AppError("Error while signup" , 404))
   }
-  next();
 });
 /**
  * --------------------------------------------------------------------------
