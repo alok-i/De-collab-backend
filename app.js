@@ -22,7 +22,7 @@ const user = require("./models/user");
 // const handleError = require("./middlewares/error");
 
 app.use(express.json());
-app.use(cors({ origin: "https://64f22df7426595190b7b345b--visionary-gelato-902ffe.netlify.app/", credentials: true }))
+app.use(cors({ origin: "https://visionary-gelato-902ffe.netlify.app/login", credentials: true }))
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   next();
