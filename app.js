@@ -22,7 +22,7 @@ const user = require("./models/user");
 // const handleError = require("./middlewares/error");
 
 app.use(express.json());
-app.use(cors({ origin: "http://localhost:3000", credentials: true }))
+app.use(cors({ origin: "https://64f22df7426595190b7b345b--visionary-gelato-902ffe.netlify.app/", credentials: true }))
 
 // app.use((req, res, next) => {
 //   // Allow only the specific origin of the request
