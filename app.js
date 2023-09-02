@@ -22,32 +22,13 @@ const user = require("./models/user");
 // const handleError = require("./middlewares/error");
 
 app.use(express.json());
-// app.use(cors({ origin: "https://visionary-gelato-902ffe.netlify.app/login", credentials: true }))
-// app.use((req, res, next) => {
-//   res.header('Access-Control-Allow-Origin', '*');
-//   next();
-// })
+
 const corsOptions = {
   origin: "https://visionary-gelato-902ffe.netlify.app", // Allow this specific origin
   credentials: true,
 };
 
 app.use(cors(corsOptions));
-// app.use((req, res, next) => {
-//   // Allow only the specific origin of the request
-//   res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
-
-//   // Allow credentials to be included in the request
-//   res.header('Access-Control-Allow-Credentials', 'true');
-
-//   // Allow specific HTTP methods (e.g., GET, POST, etc.)
-//   res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-
-//   // Allow specific headers to be sent with the request
-//   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-
-//   next();
-// });
 
 app.use(express.urlencoded({ extended: true }));
 // app.use(cookieParser());
@@ -116,9 +97,9 @@ passport.serializeUser((user, done) => {
 
   app.get('/auth/twitter', passport.authenticate('twitter'));
   app.get('/auth/twitter/callback',
-  passport.authenticate('twitter', { failureRedirect: 'http://localhost:3000/', session: true }),
+  passport.authenticate('twitter', { failureRedirect: 'https://visionary-gelato-902ffe.netlify.app/', session: true }),
   function (req, res) {
-    res.redirect('http://localhost:3000/profile');
+    res.redirect('https://visionary-gelato-902ffe.netlify.app/profile');
   });
 
   app.get('/getUser', (req, res)=> {
