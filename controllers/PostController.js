@@ -19,3 +19,7 @@ exports.createPost = catchAsyncErrors(async (req, res, next) => {
     console.log(error);
   }
 });
+
+exports.getAllHomePosts = catchAsyncErrors(async (req, res, next)=> {
+  
+})
