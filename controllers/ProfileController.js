@@ -121,6 +121,7 @@ exports.setProfilePicture = catchAsyncErrors(async ( req , res, next)=> {
               social_link_medium,
               company_name,
               fundingRounds,
+              photoUrl
             });
           } else {
             // Profile found, update the specified parameters

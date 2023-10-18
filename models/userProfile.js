@@ -6,6 +6,9 @@ const userProfile = new mongoose.Schema({
         type: String,
         index: true
     },
+    photoUrl: {
+        type : String
+    },
     company_name:{
         type: String
     },
