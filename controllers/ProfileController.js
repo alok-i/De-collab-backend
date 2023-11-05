@@ -97,42 +97,46 @@ const upload = (bucketName) =>
     }),
   });
 
-exports.setProfilePicture = catchAsyncErrors(async ( req , res, next)=> {
 
-    // console.log(req.files);
-    const uploadSingle = upload("decollab-bucket").single("croppedImage");
 
-    uploadSingle(req , res ,async (err)=> {
-        if(err) {
-          console.log(err);
-          res.status(400).json({success :false , message :err.message});
-        }
-       
-        UserProfile.findOne({ twitterId })
-        .then((Profile) => {
-          if (!Profile) {
-            Profile = new UserProfile({
-              twitterId,
-              usernameTwitter,
-              about_us,
-              tags,
-              social_link_linkedin,
-              social_link_telegram,
-              social_link_medium,
-              company_name,
-              fundingRounds,
-              photoUrl
-            });
-          } else {
-            // Profile found, update the specified parameters
-              Profile.photoUrl = req.file.location
-          }
-          return Profile.save();
-        }).then(() => {
-          res.status(201).json({ success: true , data: req.file.location });
-        })
-    })
-    
-  //  res.status(200).json({ data: req.files })
+exports.setProfilePicture = catchAsyncErrors(async (req, res, next) => {
+  const requestedTwitterId = req.params.twitterId;
+  const uploadSingle = upload("decollab-bucket").single("croppedImage");
 
-})
+  uploadSingle(req, res, async (err) => {
+    if (err) {
+      console.log(err);
+      return res.status(400).json({ success: false, message: err.message });
+    }
+
+    try {
+      let Profile = await UserProfile.findOne({ twitterId: requestedTwitterId });
+
+      if (!Profile) {
+        Profile = new UserProfile({
+          twitterId,
+          usernameTwitter,
+          about_us,
+          tags,
+          social_link_linkedin,
+          social_link_telegram,
+          social_link_medium,
+          company_name,
+          fundingRounds,
+          photoUrl: req.file.location, // Set the photoUrl here
+        });
+      } else {
+        // Profile found, update the specified parameters
+        Profile.photoUrl = req.file.location;
+      }
+      
+      // console.log(req.file.location);
+      await Profile.save();
+ 
+      return res.status(201).json({ success: true, data: req.file.location });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ success: false, message: "Internal Server Error" });
+    }
+  });
+});

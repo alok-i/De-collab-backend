@@ -24,11 +24,12 @@ const user = require("./models/user");
 app.use(express.json());
 
 const corsOptions = {
-  origin: "https://visionary-gelato-902ffe.netlify.app", // Allow this specific origin
+  origin: '*', // Allow this specific origin
   credentials: true,
 };
 
 app.use(cors(corsOptions));
+// app.use(cors(*))
 
 app.use(express.urlencoded({ extended: true }));
 // app.use(cookieParser());
